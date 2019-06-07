@@ -1,0 +1,98 @@
+## General
+fullnameOverride: ""
+imagePullSecrets: ""
+image: citusdata/citus
+imageTag: 8.1.1
+imagePullPolicy: IfNotPresent
+readiness:
+  enabled: true
+maxConnections: 100
+
+## Citus Worker
+worker:
+  replicaCount: 2
+  citusType: "citus-worker"
+  extraConfigs:
+  updateStrategy:
+    type: RollingUpdate
+  resources: {}
+  #  limits:
+  #    cpu: 1
+  #    memory: 15Gi
+  #  requests:
+  #    cpu: 250m
+  #    memory: 1Gi
+  pvc:
+    size: 50Gi
+
+## Citus Master
+master:
+  citusType: "citus-master"
+  extraConfigs:
+  resources: {}
+  #  limits:
+  #    cpu: 4
+  #    memory: 15Gi
+  #  requests:
+  #    cpu: 500m
+  #    memory: 1Gi
+  pvc:
+    size: 10Gi
+
+## Citus Master Service
+service:
+  externalPort: 5432
+  type: ClusterIP
+  annotations: {}
+
+## Citus membership manager
+## ref PostgreSQL sslmodes https://www.postgresql.org/docs/current/libpq-ssl.html
+manager:
+  image: bakdata/citus-k8s-membership-manager
+  imageTag: v0.3
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  namespace: "default"
+  shortUrl: "True"
+  minimumWorkers: "2"
+  serviceAccount:
+    create: true
+    name: citus-manager-sa
+  ssl:
+    mode: "prefer"
+  provision:
+    masterQueries: |
+      ""
+    workerQueries: |
+      ""
+
+## SSL encryption of TCP/IP connections
+## add base64 encoded cert+key files
+ssl:
+  enabled: false
+  cert:
+  key:
+
+## Monitoring: Prometheus Exporter Configuration
+## ref: https://prometheus.io/docs/instrumenting/exporters/
+prometheus:
+  enabled: true
+  image: wrouesnel/postgres_exporter
+  imageTag: v0.4.7
+  port: 9187
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+## Secrets
+superuser:
+  password: "0987654321"
+  username: "postgres"
+  database: "postgres"
+  port: 5432
