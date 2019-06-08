@@ -1,4 +1,16 @@
-image:
+# image:
+#   repository: sorintlab/stolon
+#   tag: v0.13.0-pg10
+#   pullPolicy: IfNotPresent
+keeperImage:
+  repository: sorintlab/stolon
+  tag: v0.13.0-pg10
+  pullPolicy: IfNotPresent
+proxyImage:
+  repository: sorintlab/stolon
+  tag: v0.13.0-pg10
+  pullPolicy: IfNotPresent
+sentinelImage:
   repository: sorintlab/stolon
   tag: v0.13.0-pg10
   pullPolicy: IfNotPresent

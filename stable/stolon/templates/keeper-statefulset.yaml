@@ -34,8 +34,8 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.keeperImage.repository }}:{{ .Values.keeperImage.tag }}"
+          imagePullPolicy: {{ .Values.keeperImage.pullPolicy }}
           command:
             - "/bin/bash"
             - "-ec"

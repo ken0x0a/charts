@@ -33,8 +33,8 @@ spec:
       serviceAccountName: {{ template "stolon.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.sentinelImage.repository }}:{{ .Values.sentinelImage.tag }}"
+          imagePullPolicy: {{ .Values.sentinelImage.pullPolicy }}
           command:
             - "/bin/bash"
             - "-ec"
